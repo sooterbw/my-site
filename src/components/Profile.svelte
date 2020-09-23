@@ -64,7 +64,7 @@
     <div class="imgContainer rounded-full m-auto h-32 w-32 overflow-hidden {$dark ? 'opacity-75' : 'none'}">
         <img src="img/ben_cover.jpg" alt="Ben Sooter"/>
     </div>
-    <p class="text-2xl p-3 font-semibold">{name}</p>
+    <p class="text-2xl p-3 font-semibold">Ben Sooter</p>
     <hr class="w-2/5 {$dark ? 'border-gray-500' : 'border-gray-900'} m-auto">
     <p class="text-md py-1">Systems engineer and developer</p>
     <hr class="w-2/5 m-auto {$dark ? 'border-gray-500' : 'border-gray-900'}">
