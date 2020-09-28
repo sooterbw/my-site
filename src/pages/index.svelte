@@ -9,13 +9,12 @@
 </script>
 
 <main>
-    <div class="positioning {$play ? '' : 'w-full'}">
-        {#if $play == false}
+    <div class="positioning w-full">
             <Profile {hoverPlay} />
-            <Social />
-        {:else}
+            {#if $play}
             <Games />
-        {/if}
+            {/if}
+            <Social />
     </div>
 </main>
 
