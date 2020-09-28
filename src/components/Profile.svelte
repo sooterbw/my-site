@@ -1,8 +1,7 @@
 <script>
     import { onMount } from 'svelte';
-    import { dark, play } from '../stores.js';
+    import { dark, play, admin } from '../stores.js';
 
-    export let name;
     export let hoverPlay;
 
     let code = ['HTML5', 'CSS', 'JavaScript', 'Python', 'SQL', 'Svelte', 'Flask']
@@ -51,12 +50,12 @@
     </div>
     <div class="playGame cursor-pointer" on:mouseenter={() => hoverPlay = true} on:mouseleave={() => hoverPlay = false} on:click={togglePlay}>
         {#if !hoverPlay}
-        <svg class="h-12 w-12 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="h-12 w-12 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         {:else}
-        <svg class="h-12 w-12 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+        <svg class="h-12 w-12 text-red-400" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
         </svg>
         {/if}
