@@ -36,18 +36,24 @@ function solveSudoku(board) {
 function verifyPosition(board, num, pos) {
     let row = board[pos[1]]
     let col = board.map(c => c[pos[0]])
-    let quad = col
-        .splice(Math.floor(pos[1]/3), Math.floor(pos[1]/3) + 3)
-        .concat(row.splice(Math.floor(pos[0]/3), Math.floor(pos[0]/3) + 3));
-
-    console.log(quad)
-    
-    return (row.includes(num) || col.includes(num) || quad.includes(num))
+    // let square = ;
+    return [col, row]
 }
 
-verifyPosition(board, 4, [3,2])
+function printBoard(board) {
+    for (i in board) {
+        board[i].splice(3, 0, "|")
+        board[i].splice(7, 0, "|")
+        if ((i+1)%3 == 0 & i != 8) {
+            console.log(board[i].join(" "))
+            console.log('- - - | - - - | - - -')
+        } else {
+            console.log(board[i].join(" "))
+        }
+    }
+}
 
-function verifyQuads(board, num, pos) {
+function verifySquares(board, num, pos) {
     let x = pos[0];
     let y = pos[1];
     for(let i=0; i<9; ++i) {
@@ -55,3 +61,21 @@ function verifyQuads(board, num, pos) {
     }    
 
 }
+
+function getSquares(board) {
+    let squares = []
+    for(let i=0; i < 9; i++) {
+        let square = []
+        for(let j=0; j < 2; j++) {
+            square.push(board[i + j].slice(j,j+3))
+            console.log(square)
+        }
+        squares.push(square)
+    }
+    return squares
+}
+
+let board = createBoard()
+// console.log(verifyPosition(board, 4, [3,2]))
+// console.log(getSquares(board))
+printBoard(board)
