@@ -1,17 +1,16 @@
-function createBoard() {
+export function createBoard() {
     const board = Array(81).fill(0)
     const prefillNum = 32;
     let prefill = [];
     let randomPos, randomNum = 0;
     while(prefill.length < prefillNum) {
-        randomPos = Math.floor(Math.random() * 82)
+        randomPos = Math.floor(Math.random() * 81)
         randomNum = Math.floor(Math.random() * 9) + 1
         if(verify(board, randomPos, randomNum)) {
             board[randomPos] = randomNum
         }
-        prefill = board.filter((i) => i>0)
+        prefill = board.filter((x) => x>0)
     }
-    printBoard(board)
     return board
 }
 
@@ -22,7 +21,7 @@ function verifyRow(board, pos, num) {
 
 function verifyCol(board, pos, num) {
     let col = []
-    for(i in board) {
+    for(let i in board) {
         if(i%9 == pos%9) {
             col.push(board[i])
         }
@@ -35,7 +34,7 @@ function verifySquare(board, pos, num) {
     let col = []
     let col1 = []
     let col2 = []
-    for(i in board) {
+    for(let i in board) {
         if(i%9 == pos%9) {
             col.push(board[i - pos%3])
             col1.push(board[(i - pos%3)+1])
