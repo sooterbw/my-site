@@ -1,23 +1,3 @@
-
-// function createBoard() {
-//     const board = [];
-//     const prefillChance = 1;
-//     for (let i = 0; i < 9; i++) {
-//         const row = [];
-//         for (let j = 0; j < 9; j++) {
-//             const num = Math.floor(Math.random() * 10)
-//             const col = board.map(x => x[j])
-//             if(((Math.round(Math.random(1) * 100) / 100) <= prefillChance) && !row.includes(num) && !col.includes(num)) {
-//                 row.push(num)
-//             } else {
-//                 row.push(0)
-//             }
-//         }
-//         board.push(row)     
-//     }
-//     return board
-// }
-
 function createBoard() {
     const board = Array(81).fill(0)
     const prefillNum = 32;
@@ -26,12 +6,13 @@ function createBoard() {
     while(prefill.length < prefillNum) {
         randomPos = Math.floor(Math.random() * 82)
         randomNum = Math.floor(Math.random() * 9) + 1
-        if(verifyRow(board, randomPos, randomNum) & verifyCol(board, randomPos, randomNum)) {
+        if(verify(board, randomPos, randomNum)) {
             board[randomPos] = randomNum
         }
         prefill = board.filter((i) => i>0)
     }
     printBoard(board)
+    return board
 }
 
 function verifyRow(board, pos, num) {
@@ -51,24 +32,25 @@ function verifyCol(board, pos, num) {
 
 function verifySquare(board, pos, num) {
     let square = []
-    let testPos = pos%3
-    let rowPos = board.slice(pos - pos%3, ((pos - pos%3) + 3))
-    let colPos;
     let col = []
+    let col1 = []
+    let col2 = []
     for(i in board) {
         if(i%9 == pos%9) {
             col.push(board[i - pos%3])
+            col1.push(board[(i - pos%3)+1])
+            col2.push(board[(i - pos%3)+2])
         }
     }
-    colPos = col.slice(pos%3, ((pos%3) + 3))
-    console.log(rowPos)
-    console.log(colPos)
-    console.log(testPos)
+    square = col.slice(Math.floor(pos/27) * 3, ((Math.floor(pos/27) * 3) + 3))
+    square = square.concat(col1.slice(Math.floor(pos/27) * 3, ((Math.floor(pos/27) * 3) + 3)))
+    square = square.concat(col2.slice(Math.floor(pos/27) * 3, ((Math.floor(pos/27) * 3) + 3)))
+    return !square.includes(num)
 }
 
-let sampleBoard = Array(81).fill(1).map(x=>x*Math.floor(Math.random()*9)+1)
-verifySquare(sampleBoard, 9, 0)
-printBoard(sampleBoard)
+function verify(board, pos, num) {
+    return (verifyCol(board, pos, num) & verifyRow(board, pos, num) & verifySquare(board, pos, num))
+}
 
 function printBoard(board) {
     let printBoard = []
@@ -86,34 +68,3 @@ function printBoard(board) {
         }
     }
 }
-
-function getSquares(board) {
-    let squares = []
-    for(let i=0; i < 9; i++) {
-        let square = []
-        for(let j=0; j < 3; j++) {
-            if(i == 0) {
-                square = square.concat(board[j].slice(0,3))
-            } else if(i == 1) {
-                square = square.concat(board[j].slice(3,6))
-            } else if(i == 2) {
-                square = square.concat(board[j].slice(6,9))
-            } else if(i == 3) {
-                square = square.concat(board[j+3].slice(0,3))
-            } else if(i == 4) {
-                square = square.concat(board[j+3].slice(3,6))
-            } else if(i == 5) {
-                square = square.concat(board[j+3].slice(6,9))
-            } else if(i == 6) {
-                square = square.concat(board[j+6].slice(0,3))
-            } else if(i == 7) {
-                square = square.concat(board[j+6].slice(3,6))
-            } else if(i == 8) {
-                square = square.concat(board[j+6].slice(6,9))
-            }
-        }
-        squares.push(square)
-    }
-    return squares
-}
-
