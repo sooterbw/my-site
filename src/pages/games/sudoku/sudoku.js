@@ -47,7 +47,8 @@ function verifySquare(board, pos, num) {
     return !square.includes(num)
 }
 
-function verify(board, pos, num) {
+export function verify(board, pos, num) {
+    console.log(board[pos])
     return (verifyCol(board, pos, num) & verifyRow(board, pos, num) & verifySquare(board, pos, num))
 }
 
