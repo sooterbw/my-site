@@ -1,44 +1,76 @@
 <script>
     import { onMount } from 'svelte';
-    import { createBoard, verify } from './sudoku.js';
+    import { createBoard } from './sudoku.js';
 
-    const board = createBoard();
-    let editBoard = board.map(x => {
-        if(x===0) {
-            return {
-                'value': '',
-                'verified': false,
-            }
-        } else {
-            return {
-                'value': x,
-                'verified': true
-            }
+    const newBoard = createBoard();
+    let editBoard = newBoard.map((x, i) => {
+        return {
+            'value': x,
+            'verified': true, // verify(newBoard, newBoard[i], x),
+            'editable': x===0
         }
     });
 
-    function verifyCell(puzzle, pos, num) {
-        let bd = puzzle.map(x => (x==='') ? 0 : x)
-        editBoard[pos].verified = verify(bd, pos, num)
-        console.log(editBoard[pos])
+    function verifyRow(board, pos, num) {
+        let row = board.slice(pos - pos%9, ((pos - pos%9) + 9))
+        return row
+    }
+
+    function verifyCol(board, pos, num) {
+        let col = []
+        for(let i in board) {
+            if(i%9 == pos%9) {
+                col.push(board[i])
+            }
+        }
+        return col
+    }
+
+    function verifySquare(board, pos, num) {
+        let square = []
+        let col = []
+        let col1 = []
+        let col2 = []
+        for(let i in board) {
+            if(i%9 == pos%9) {
+                col.push(board[i - pos%3])
+                col1.push(board[(i - pos%3)+1])
+                col2.push(board[(i - pos%3)+2])
+            }
+        }
+        square = col.slice(Math.floor(pos/27) * 3, ((Math.floor(pos/27) * 3) + 3))
+        square = square.concat(col1.slice(Math.floor(pos/27) * 3, ((Math.floor(pos/27) * 3) + 3)))
+        square = square.concat(col2.slice(Math.floor(pos/27) * 3, ((Math.floor(pos/27) * 3) + 3)))
+        return square
+    }
+
+    function verify(pos, num) {
+        let boardArr = editBoard.map(x => x.value)
+        boardArr[pos]=0
+        let col = verifyCol(boardArr, pos, num)
+        let row = verifyRow(boardArr, pos, num)
+        let square = verifySquare(boardArr, pos, num)
+        editBoard[pos].verified = [...col, ...row, ...square].includes(num)
+        return [...col, ...row, ...square].includes(num)
     }
 </script>
 
 <div class="flex h-screen w-screen justify-center items-center">
-    <div class="sudoku border-2 rounded-md">
-        {#each editBoard as square, i}
+    <div class="sudoku border-l-2 border-t-2 rounded-md">
+        {#each editBoard as cell, i}
             <div class="
                 border border-1 border-gray-600
-                {((i+9) - i%9)%27 == 0 ? 'border-b-2 bottom-border': ''} 
+                {(((i+9) - i%9)%27 == 0) ? 'border-b-2 bottom-border': ''} 
                 {((i+1)%3==0) ? 'border-r-2 right-border' : ''}
-                {editBoard[i].value !== board[i] ? 'hover:bg-gray-800' : ''}">
-            <input type="number" class="bg-transparent w-full border-none 
-                text-2xl text-center py-2 
-                {square.verified ? '' : 'text-red-500'}
-                {(editBoard[i].value === board[i]) ? 'font-bold' : ''}" 
-                on:keypress="{() => verifyCell(editBoard, i, editBoard[i].value)}"
-                disabled={editBoard[i].value === board[i]} max="9" bind:value={editBoard[i].value}>
-        </div>
+                {cell.value !== newBoard[i] ? 'hover:bg-gray-800' : ''}">
+                <input type="number" 
+                    class="bg-transparent w-full border-none 
+                    text-2xl text-center py-2 
+                    {(cell.value === newBoard[i]) ? 'font-bold' : ''}
+                    {(cell.verified) ? 'text-red-500' : ''}"
+                    on:keyup="{(() => verify(i, cell.value))}"
+                    disabled={!cell.editable} max="9" bind:value={cell.value}>
+            </div>
         {/each}
     </div>
 </div>
@@ -49,6 +81,10 @@
         grid-template-columns: repeat(9, 1fr);
         width: 500px;
         height: 500px;
+    }
+
+    .incorrect {
+        color: red;
     }
 
     .bottom-border {
