@@ -5,9 +5,10 @@
     const newBoard = createBoard();
     let editBoard = newBoard.map((x, i) => {
         return {
-            'value': x,
-            'verified': true, // verify(newBoard, newBoard[i], x),
-            'editable': x===0
+            'value': newBoard[i]===0 ? '' : x,
+            'verified': true,
+            'editable': x===0,
+            'selected': false
         }
     });
 
@@ -56,20 +57,23 @@
 </script>
 
 <div class="flex h-screen w-screen justify-center items-center">
-    <div class="sudoku border-l-2 border-t-2 rounded-md">
+    <div class="sudoku border-4 rounded-md">
         {#each editBoard as cell, i}
             <div class="
                 border border-1 border-gray-600
-                {(((i+9) - i%9)%27 == 0) ? 'border-b-2 bottom-border': ''} 
-                {((i+1)%3==0) ? 'border-r-2 right-border' : ''}
-                {cell.value !== newBoard[i] ? 'hover:bg-gray-800' : ''}">
+                {(((i+9) - i%9)%27 == 0) && (((i+9) - i%9)%81 != 0)  ? 'border-b-2 bottom-border': ''} 
+                {((i+1)%3==0) && ((i+1)%9!=0) ? 'border-r-2 right-border' : ''}
+                {cell.editable ? 'hover:bg-gray-800' : ''}
+                {cell.selected ? 'bg-gray-800' : ''}">
                 <input type="number" 
                     class="bg-transparent w-full border-none 
-                    text-2xl text-center py-2 
+                    text-2xl text-center py-2 cursor-default
                     {(cell.value === newBoard[i]) ? 'font-bold' : ''}
-                    {(cell.verified) ? 'text-red-500' : ''}"
+                    {(!cell.verified || cell.value==='') ? '' : 'text-red-500'}"
                     on:keyup="{(() => verify(i, cell.value))}"
-                    disabled={!cell.editable} max="9" bind:value={cell.value}>
+                    on:focus="{() => cell.selected = !cell.selected}"
+                    on:blur="{() => cell.selected = !cell.selected}"
+                    disabled={!cell.editable} max=9 bind:value={cell.value}>
             </div>
         {/each}
     </div>
@@ -104,5 +108,10 @@
 
     input[type=number] {
         -moz-appearance:textfield; /* Firefox */
+        caret-color: transparent;
+    }
+
+    input:focus {
+        outline: none;
     }
 </style>

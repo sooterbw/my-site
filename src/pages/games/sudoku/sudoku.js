@@ -1,3 +1,4 @@
+// TODO this generation method creates unsolvable puzzles
 export function createBoard() {
     const board = Array(81).fill(0)
     const prefillNum = 32;
