@@ -18,11 +18,13 @@
 	});
 </script>
 
-<div class="flex flex-col h-full w-full {$dark ? 'bg-gray-800' : 'bg-gray-400'}">
-    <div class="rounded-lg m-auto w-48 overflow-hidden">
+<div class="flex items-center h-full w-full {$dark ? 'bg-gray-800' : 'bg-gray-400'}">
+    <div class="flex flex-col">
+        <p class="text-2xl font-semibold">Ben Sooter</p>
+        <p class="text-md">Systems engineer and developer</p>
+        <p class="text-xl font-bold">I code with <span class="pb-2 px-2 pt-1 rounded {$dark ? 'bg-gray-900' : 'bg-gray-300'}">{codeIn}</span></p>
+    </div>
+    <div class="rounded-lg w-48 overflow-hidden">
         <img src="img/ben_cover.jpg" alt="Ben Sooter"/>
     </div>
-    <p class="text-2xl p-3 font-semibold">Ben Sooter</p>
-    <p class="text-md py-1">Systems engineer and developer</p>
-    <p class="text-xl font-bold py-5">I code with <span class="pb-2 px-2 pt-1 rounded {$dark ? 'bg-gray-900' : 'bg-gray-300'}">{codeIn}</span></p>
 </div>

@@ -8,8 +8,13 @@
 
 <div class="fixed flex justify-between w-full p-2">
     <img class="w-12 h-12" src="img/bs.gif" alt="BS Logo">
-    <div class="flex items-center space-x-4">
-        <ul class="flex space-x-4 text-xl font-semibold">
+    <div class="flex flex-row-reverse md:flex-row items-center space-x-4">
+        <div class="md:hidden pl-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+        </div>
+        <ul class="hidden md:flex space-x-4 text-xl font-semibold">
             <li><a href="#">About Me</a></li>
             <li><a href="#">Projects</a></li>
             <li><a href="#">Resume</a></li>
